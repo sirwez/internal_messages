@@ -39,7 +39,7 @@ function escolha($id)
             // Insert Product
             $send = new messagesRepository;
             // $send->send_Message($id[1], "Weslley", "Douglas", "NOVA MSG", "asdasdasd", null);
-            $send->deleteMessage($id, "Tiago", "Dia de Festa", "Convidamos vc para nossa festa");
+            $send->deleteAllMessageById($id);
         break;
         case 'PUT':
             // // Update Product

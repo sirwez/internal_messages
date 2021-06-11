@@ -15,4 +15,13 @@
         "corpo": "Esse \u00e9 o corpo do email",
         "resposta": null
     }
+    ,
+    {
+        "id": 0,
+        "remetente": "Weslley",
+        "destinatario": "Tiago",
+        "assunto": "Dia de Festa",
+        "corpo": "Convidamos vc para nossa festa",
+        "resposta": null
+    }
 ]

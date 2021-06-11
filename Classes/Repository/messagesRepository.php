@@ -156,14 +156,70 @@ class messagesRepository
                 fwrite($fp, json_encode($allMessages, JSON_PRETTY_PRINT));
                 // fecha o ficheiro
                 fclose($fp);
-                if (true)
+                $tamDepois = self::verificaMessage();
+                if (!($tamAntes>$tamDepois))
                 {
-                    // throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERR0_NENHUMA_MSG_ENCONTRADA);
-                    
+                     throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERR0_DELETE_MSG);
                 }
                 else
                 {
-                    return;
+                    return ConstantesGenericasUtil::MSG_DELETADO_SUCESSO;
+                }
+
+            }
+        }
+        catch(Exception $e)
+        {
+            echo "Exceção capturada: " . $e->getMessage();
+        }
+    }
+
+    public function deleteAllMessageById($id)
+    {
+        $allMessages = [];
+        try
+        {
+            $string = file_get_contents(PATH);
+            if (!$string)
+            {
+                throw new Exception(ConstantesGenericasUtil::MSG_ERRO_AO_ABRIR_ARQUIVO);
+            }
+            else
+            {
+                $json = json_decode($string);
+                $tamAntes = self::verificaMessage();
+                $cont = 0;
+                foreach ($json as $key => $value)
+                {
+                    if (($id == $value->id))
+                    {
+                        unset($allMessages[$cont]);  
+                    }
+                    else
+                    {
+                        $allMessages[$cont]['id'] = $value->id;
+                        $allMessages[$cont]['remetente'] = $value->remetente;
+                        $allMessages[$cont]['destinatario'] = $value->destinatario;
+                        $allMessages[$cont]["assunto"] = $value->assunto;
+                        $allMessages[$cont]["corpo"] = $value->corpo;
+                        $allMessages[$cont]["resposta"] = $value->resposta;
+                        $cont++;
+                    }
+
+                }
+                $fp = fopen(PATH, 'w');
+                // escreve no ficheiro em json
+                fwrite($fp, json_encode($allMessages, JSON_PRETTY_PRINT));
+                // fecha o ficheiro
+                fclose($fp);
+                $tamDepois = self::verificaMessage();
+                if (!($tamAntes>$tamDepois))
+                {
+                     throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERR0_DELETE_MSG);
+                }
+                else
+                {
+                    return ConstantesGenericasUtil::MSG_DELETADO_SUCESSO;
                 }
 
             }
