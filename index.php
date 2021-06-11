@@ -7,10 +7,10 @@ include 'bootstrap.php';
 
 $verificar = new data();
 $idValid = null;
-$idValid = $verificar->verificarUser("weslley", 123);
+$idValid = $verificar->verificarUser("Felipe", 'naquele');
 if ($idValid[0] != null)
 {
-    echo "\nUsuário: " . $idValid[1]; //debug
+    echo "\nUsuário: " . $idValid[1].'<br/>'; //debug
     escolha($idValid[1]);
 }
 else
@@ -38,8 +38,9 @@ function escolha($id)
         case 'POST':
             // Insert Product
             $send = new messagesRepository;
-            // $send->send_Message($id[1], "Weslley", "Douglas", "NOVA MSG", "asdasdasd", null);
-            $send->deleteAllMessageById($id);
+            $msg = $send->encaminharMessage($id, "Felipe","Tiago", "Weslley", "Dia de Festa", "Convidamos vc para nossa festa");
+            // $msg = $send->send_Message($id, "Felipe","ismael","Dia de Festa", "Convidamos vc para nossa festa");
+            var_dump($msg);exit;
         break;
         case 'PUT':
             // // Update Product

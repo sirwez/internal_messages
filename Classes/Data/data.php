@@ -51,6 +51,45 @@ class data
         }
 
     }
+    public function isExiste($user)
+    {
+        $valid = false;
+        try
+        {
+            $json = file_get_contents(PATH);
+
+            if (!$json)
+            {
+                throw new Exception(ConstantesGenericasUtil::MSG_ERRO_AO_ABRIR_ARQUIVO);
+            }
+            else
+            {
+                $data = json_decode($json);
+                
+                foreach ($data as $key => $value)
+                {
+                    if (($user == $value->nome))
+                    {
+                        $valid = true;
+                    }
+                }
+
+                if ($valid)
+                {
+                    return $valid;
+                }
+                else
+                {
+                    throw new InvalidArgumentException(ConstantesGenericasUtil::MSG_ERRO_LOGIN_NAO_EXISTE);
+                }
+            }
+        }
+        catch(Exception $e)
+        {
+            echo "Exceção capturada: " . $e->getMessage();
+        }
+
+    }
     public function cadastrarUser($user, $senha)
     {
 
