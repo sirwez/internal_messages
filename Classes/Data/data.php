@@ -11,6 +11,7 @@ class data
 
     public function verificarUser($user, $senha)
     {
+        $id = null;
         try
         {
             $json = file_get_contents(PATH);
@@ -23,17 +24,20 @@ class data
             {
                 $data = json_decode($json);
                 $valid = false;
-
                 foreach ($data as $key => $value)
                 {
                     if ((($user == $value->nome)) && (($senha == $value->senha)))
                     {
                         $valid = true;
+                        $id = $key;
                     }
                 }
+
                 if ($valid)
                 {
-                    echo "<p>$user :'encontrado'</p>";
+                    echo $user . ":" . 'encontrado'; //debug
+                    $retorno = [$valid, $id];
+                    return $retorno;
                 }
                 else
                 {
@@ -94,6 +98,10 @@ class data
         {
             echo "Exceção capturada: " . $e->getMessage();
         }
+
+    }
+    public function getAllMessage($id)
+    {
 
     }
 

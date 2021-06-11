@@ -1,0 +1,18 @@
+[
+    {
+        "id": 0,
+        "remetente": "Weslley",
+        "destinatario": "Ismael",
+        "assunto": "Teste: Assunto",
+        "corpo": "Teste: Corpo do texto",
+        "resposta": null
+    },
+    {
+        "id": 2,
+        "remetente": "Felipe",
+        "destinatario": "Weslley",
+        "assunto": "Oi, ta dando certo?",
+        "corpo": "Esse \u00e9 o corpo do email",
+        "resposta": null
+    }
+]

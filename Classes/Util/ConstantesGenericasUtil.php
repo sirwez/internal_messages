@@ -19,6 +19,7 @@ abstract class ConstantesGenericasUtil
     public const MSG_ERRO_SEM_RETORNO = 'Nenhum registro encontrado!';
     public const MSG_ERRO_NAO_AFETADO = 'Nenhum registro afetado!';
     public const MSG_ERR0_JSON_VAZIO = 'O Corpo da requisição não pode ser vazio!';
+    public const MSG_ERR0_NENHUMA_MSG_ENCONTRADA = 'Caixa de Mensagens Vazia!';
 
     /* SUCESSO */
     public const MSG_DELETADO_SUCESSO = 'Registro deletado com Sucesso!';
