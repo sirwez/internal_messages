@@ -38,8 +38,8 @@ function escolha($id)
         case 'POST':
             // Insert Product
             $send = new messagesRepository;
-            $msg = $send->encaminharMessage($id, "Felipe","Tiago", "Weslley", "Dia de Festa", "Convidamos vc para nossa festa");
-            // $msg = $send->send_Message($id, "Felipe","ismael","Dia de Festa", "Convidamos vc para nossa festa");
+            // $msg = $send->encaminharMessage($id, "Felipe","Tiago", "Weslley", "Dia de Festa", "Convidamos vc para nossa festa");
+            $msg = $send->getMessage($id, "Felipe","Tiago","Dia de Festa", "Convidamos vc para nossa festa");
             var_dump($msg);exit;
         break;
         case 'PUT':

@@ -139,7 +139,8 @@ class messagesRepository
 
     public function getMessage($id, $remetente, $destinatario, $assunto, $corpo)
     {
-        $oneMessages = [];
+        $oneMessages = []; //retorna uma
+        $allMessages = []; //seta true para lido no .json
         try
         {
             // extrai a informação do ficheiro
@@ -162,9 +163,9 @@ class messagesRepository
                         $oneMessages[$cont]['destinatario'] = $value->destinatario;
                         $oneMessages[$cont]["assunto"] = $value->assunto;
                         $oneMessages[$cont]["corpo"] = $value->corpo;
-
+                        $cont++;
                     }
-                    $cont++;
+                   
                 }
                 if (empty($oneMessages))
                 {
@@ -172,6 +173,43 @@ class messagesRepository
                 }
                 else
                 {
+
+                    $json = json_decode($string);
+                    $cont = 0;
+                    foreach ($json as $key => $value)
+                    {
+                        if (($id == $value->id) && $destinatario == $value->destinatario && $assunto == $value->assunto && $corpo == $value->corpo)
+                        {
+                            $allMessages[$cont]['id'] = $value->id;
+                            $allMessages[$cont]['remetente'] = $value->remetente;
+                            $allMessages[$cont]['destinatario'] = $value->destinatario;
+                            $allMessages[$cont]["assunto"] = $value->assunto;
+                            $allMessages[$cont]["corpo"] = $value->corpo;
+                            $allMessages[$cont]["resposta"] = $value->resposta;
+                            $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                            $allMessages[$cont]["lida"] = true;
+                            
+                        }
+                        else
+                        {
+                            $allMessages[$cont]['id'] = $value->id;
+                            $allMessages[$cont]['remetente'] = $value->remetente;
+                            $allMessages[$cont]['destinatario'] = $value->destinatario;
+                            $allMessages[$cont]["assunto"] = $value->assunto;
+                            $allMessages[$cont]["corpo"] = $value->corpo;
+                            $allMessages[$cont]["resposta"] = $value->resposta;
+                            $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                            $allMessages[$cont]["lida"] = $value->lido;
+                            
+                        }
+                        $cont++;
+    
+                    }
+                    $fp = fopen(PATH, 'w');
+                    // escreve no ficheiro em json
+                    fwrite($fp, json_encode($allMessages, JSON_PRETTY_PRINT));
+                    // fecha o ficheiro
+                    fclose($fp);
                     return $oneMessages;
                 }
                 // return $retorno;

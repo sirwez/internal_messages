@@ -5,8 +5,9 @@
         "destinatario": "Ismael",
         "assunto": "Teste: Assunto",
         "corpo": "Teste: Corpo do texto",
-        "resposta": null,
-        "encaminhada": false
+        "resposta": false,
+        "encaminhar": null,
+        "lida": null
     },
     {
         "id": 2,
@@ -14,8 +15,8 @@
         "destinatario": "Weslley",
         "assunto": "Oi, ta dando certo?",
         "corpo": "Esse \u00e9 o corpo do email",
-        "resposta": null,
-        "encaminhada": false
+        "resposta": false,
+        "lida": null
     },
     {
         "id": 2,
@@ -23,16 +24,8 @@
         "destinatario": "Tiago",
         "assunto": "Dia de Festa",
         "corpo": "Convidamos vc para nossa festa",
-        "resposta": null,
-        "encaminhada": false
-    },
-    {
-        "id": 2,
-        "remetente": "Felipe",
-        "destinatario": "Weslley",
-        "assunto": "Dia de Festa",
-        "corpo": "Convidamos vc para nossa festa",
         "resposta": false,
-        "encaminhada": true
+        "encaminhar": null,
+        "lida": true
     }
 ]
