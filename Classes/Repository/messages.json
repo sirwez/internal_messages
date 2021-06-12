@@ -16,6 +16,7 @@
         "assunto": "Oi, ta dando certo?",
         "corpo": "Esse \u00e9 o corpo do email",
         "resposta": false,
+        "encaminhar": null,
         "lida": null
     },
     {
