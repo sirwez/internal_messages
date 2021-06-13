@@ -1,7 +1,7 @@
 <?php
 namespace Repository;
 
-use Data\data;
+use Data\PersonController;
 use Exception;
 use InvalidArgumentException;
 use Util\ConstantesGenericasUtil;
@@ -37,10 +37,11 @@ class messagesRepository
 
     public static function send_Message($id, $remetente, $destinatario, $assunto, $corpo)
     {
-        $user = new data();
+        //Vou usar essas coisas na principal
+        $user = new PersonController();
         try
         {
-            if ($user->isExiste($destinatario))
+            if ($user->isExiste($destinatario) && $user->isExiste($remetente))
             {
                 $responde = self::verificaMessage();
                 $responde[0][$responde[1]]["id"] = $id;
@@ -48,8 +49,9 @@ class messagesRepository
                 $responde[0][$responde[1]]["destinatario"] = $destinatario;
                 $responde[0][$responde[1]]["assunto"] = $assunto;
                 $responde[0][$responde[1]]["corpo"] = $corpo;
-                $responde[0][$responde[1]]["resposta"] = false;
-                $responde[0][$responde[1]]["encaminhar"] = false;
+                // $responde[0][$responde[1]]["resposta"] = false;
+                // $responde[0][$responde[1]]["encaminhar"] = false;
+                $responde[0][$responde[1]]["lida"] = false;
                 // abre o ficheiro em modo de escrita
                 $fp = fopen(PATH, 'w');
                 // escreve no ficheiro em json
@@ -69,6 +71,7 @@ class messagesRepository
 
             } else {
                 throw new Exception('Destinatário não encontrado, Erro ao Enviar mensagem!');
+                return ConstantesGenericasUtil::TIPO_ERRO;
             }
         }
         catch(Exception $e)
@@ -185,8 +188,8 @@ class messagesRepository
                             $allMessages[$cont]['destinatario'] = $value->destinatario;
                             $allMessages[$cont]["assunto"] = $value->assunto;
                             $allMessages[$cont]["corpo"] = $value->corpo;
-                            $allMessages[$cont]["resposta"] = $value->resposta;
-                            $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                            // $allMessages[$cont]["resposta"] = $value->resposta;
+                            // $allMessages[$cont]["encaminhar"] = $value->encaminhar;
                             $allMessages[$cont]["lida"] = true;
                             
                         }
@@ -197,8 +200,8 @@ class messagesRepository
                             $allMessages[$cont]['destinatario'] = $value->destinatario;
                             $allMessages[$cont]["assunto"] = $value->assunto;
                             $allMessages[$cont]["corpo"] = $value->corpo;
-                            $allMessages[$cont]["resposta"] = $value->resposta;
-                            $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                            // $allMessages[$cont]["resposta"] = $value->resposta;
+                            // $allMessages[$cont]["encaminhar"] = $value->encaminhar;
                             $allMessages[$cont]["lida"] = $value->lido;
                             
                         }
@@ -223,7 +226,7 @@ class messagesRepository
 
     }
 
-    public function encaminharMessage($id, $remetente, $destinatario, $novoDestinatario, $assunto, $corpo)
+    public function encaminharMessage($id, $remetente, $novoDestinatario, $assunto, $corpo)
     {
         $encaminhadaMessages = [];
         try
@@ -241,7 +244,7 @@ class messagesRepository
                 //$cont = 0; verificar depois se esse cont faz diferença
                 foreach ($json as $key => $value)
                 {
-                    if (($id == $value->id) && ($remetente == $value->remetente) && ($destinatario == $value->destinatario) && ($assunto == $value->assunto) && ($corpo == $value->corpo))
+                    if (($id == $value->id) && ($remetente == $value->remetente) && ($assunto == $value->assunto) && ($corpo == $value->corpo))
                     {
                         $encaminhadaMessages[0]['id'] = $value->id;
                         $encaminhadaMessages[0]['remetente'] = $value->remetente;
@@ -264,8 +267,9 @@ class messagesRepository
                     $responde[0][$responde[1]]["destinatario"] = $encaminhadaMessages[0]['destinatario'];
                     $responde[0][$responde[1]]["assunto"] = $encaminhadaMessages[0]['assunto'];
                     $responde[0][$responde[1]]["corpo"] = $encaminhadaMessages[0]['corpo'];
-                    $responde[0][$responde[1]]["resposta"] = false;
-                    $responde[0][$responde[1]]["encaminhada"] = true;
+                    // $responde[0][$responde[1]]["resposta"] = false;
+                    // $responde[0][$responde[1]]["encaminhada"] = true;
+                    $responde[0][$responde[1]]["lida"] = false;
                     // abre o ficheiro em modo de escrita
                     $fp = fopen(PATH, 'w');
                     // escreve no ficheiro em json
@@ -321,9 +325,7 @@ class messagesRepository
                 {
                     if (($id == $value->id) && $destinatario == $value->destinatario && $assunto == $value->assunto && $corpo == $value->corpo)
                     {
-                        unset($allMessages[$cont]);
-                        # code...
-                        
+                        unset($allMessages[$cont]);                        
                     }
                     else
                     {
@@ -332,8 +334,9 @@ class messagesRepository
                         $allMessages[$cont]['destinatario'] = $value->destinatario;
                         $allMessages[$cont]["assunto"] = $value->assunto;
                         $allMessages[$cont]["corpo"] = $value->corpo;
-                        $allMessages[$cont]["resposta"] = $value->resposta;
-                        $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                        // $allMessages[$cont]["resposta"] = $value->resposta;
+                        // $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                        $allMessages[$cont]["lida"] = $value->lida;
                         $cont++;
                     }
 
@@ -389,8 +392,9 @@ class messagesRepository
                         $allMessages[$cont]['destinatario'] = $value->destinatario;
                         $allMessages[$cont]["assunto"] = $value->assunto;
                         $allMessages[$cont]["corpo"] = $value->corpo;
-                        $allMessages[$cont]["resposta"] = $value->resposta;
-                        $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                        // $allMessages[$cont]["resposta"] = $value->resposta;
+                        // $allMessages[$cont]["encaminhar"] = $value->encaminhar;
+                        $allMessages[$cont]["lida"] = $value->lida;
                         $cont++;
                     }
 
@@ -416,6 +420,12 @@ class messagesRepository
         {
             echo "Exceção capturada: " . $e->getMessage();
         }
+    }
+
+    public function responderMessage($id, $remetente, $destinatario, $assunto, $corpo)
+    {
+        $msgResp = self::send_Message($id, $destinatario, $remetente, $assunto, $corpo);
+        return $msgResp;
     }
 
 }
