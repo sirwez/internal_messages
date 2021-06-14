@@ -1,63 +1,33 @@
 <?php
-// use Data\data;
-// use Repository\messagesRepository;
-// use Util\ConstantesGenericasUtil;
+include 'bootstrap.php';
 
-// include 'bootstrap.php';
+use Data\PersonController;
 
-// $verificar = new data();
-// $idValid = null;
-// $idValid = $verificar->verificarUser("weslley", 123);
-// if ($idValid[0] != null)
-// {
-//     echo "\nUsuário: " . $idValid[1].'<br/>'; //debug
-//     escolha($idValid[1]);
-// }
-// else
-// {
-//     echo PHP_EOL . ConstantesGenericasUtil::MSG_ERRO_LOGIN_NAO_EXISTE;
-// }
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-// function escolha($id)
-// {
-//     $request_method = $_SERVER["REQUEST_METHOD"];
-//     switch ('POST')
-//     {
-//         case 'GET':
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = explode( '/', $uri );
 
-//             // if(!empty($_GET[]))
-//             // // Retrive Products
-//             // if(!empty($_GET["product_id"])) {
-//             //     $product_id = intval($_GET["product_id"]);
-//             //     get_products($product_id);
-//             // } else {
-//             //     get_products();
-//             // }
-            
-//         break;
-//         case 'POST':
-//             // Insert Product
-//             $send = new messagesRepository;
-//             // $msg = $send->encaminharMessage($id, "Felipe","Tiago", "Weslley", "Dia de Festa", "Convidamos vc para nossa festa");
-//             $msg = $send->responderMessage($id, "Felipe","weslley","Oi, ta dando certo?"." - Resposta", "Esse é o corpo da resposta");
-//             var_dump($msg);exit;
-//         break;
-//         case 'PUT':
-//             // // Update Product
-//             // $product_id = intval($_GET["product_id"]);
-//             // update_product($product_id);
-            
-//         break;
-//         case 'DELETE':
-//             // // Delete Product
-//             // $product_id = intval($_GET["product_id"]);
-//             // delete_product($product_id);
-            
-//         break;
-//         default:
-//             // Invalid Request Method
-//             header("HTTP/1.0 405 Method Not Allowed");
-//         break;
-//     }
-// }
+// all of our endpoints start with /person
+// everything else results in a 404 Not Found
+if ($uri[2] !== 'person') {
+    header("HTTP/1.1 404 Not Found");
+    exit();
+}
+$flag = 0; //1 - login, 2 - msg
+// the user id is, of course, optional and must be a number:
 
+$userId = null;
+if (isset($uri[3])) {
+    $userId = (int) $uri[3];
+}
+
+
+$requestMethod = $_SERVER["REQUEST_METHOD"];
+var_dump($requestMethod);exit;
+$controller= new PersonController($requestMethod, $userId);
+$controller->processRequest();
